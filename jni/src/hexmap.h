@@ -12,6 +12,7 @@
 
 #define FLAT_ORIENTATION    0
 #define POINTY_ORIENTATION  1
+#define BOARD_COUNT         6
 
 #include "engine.h"
 #include "common.h"
@@ -76,6 +77,9 @@ int GetNeighborGrids( hexmap* map, int posX, int posY, pos* output );
 
 // get adjoin grids
 int GetAdjoinGrids( hexmap* map, int posX, int posY, int distance, pos* posPool, int posPoolSize );
+
+// calculate the distance of two grids ( omit grid type )
+int CalcDistance( int x1, int y1, int x2, int y2 );
 
 
 #endif

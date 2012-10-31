@@ -205,7 +205,7 @@ int GetNeighborGrids( hexmap* map, int posX, int posY, pos* output )
     
     int i;
     int count = 0;
-    for( i = 0; i < 6; i++ )
+    for( i = 0; i < BOARD_COUNT; i++ )
     {
         neighborPosX = posX + offsetx[i];
         neighborPosY = posY + offsety[i];
@@ -244,6 +244,23 @@ int GetAdjoinGrids( hexmap* map, int posX, int posY, int distance, pos* posPool,
     
     return count;
 }
+
+
+// calculate the distance of two grids ( omit grid type )
+int CalcDistance( int x1, int y1, int x2, int y2 )
+{
+    int distance = 0;
+    
+    float value = ( ( x1 - x2 ) + (float)( y1 - y2 ) * 0.5 ) * ( ( x1 - x2 ) + (float)( y1 - y2 ) * 0.5 );
+    value += ( y1 - y2 ) * ( y1 - y2 ) * 0.75;
+    
+    value = sqrt( value );
+    
+    distance = (int)( value + 0.5f );
+    
+    return distance;
+}
+
 
 
 //---------------------- inner used functions ------------------------
