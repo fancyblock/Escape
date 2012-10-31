@@ -13,6 +13,7 @@
 #include "engine.h"
 #include "hexmap.h"
 #include "escaper.h"
+#include "surrounder.h"
 
 
 ALLEGRO_DEBUG_CHANNEL("[Scene]")
@@ -37,6 +38,8 @@ ALLEGRO_DEBUG_CHANNEL("[Scene]")
 #define STATE_FAIL          4
 #define STATE_WAIT          5
 
+#define FADEIN_TIME         1.7f
+
 
 
 //---------------------------- game var -------------------------------
@@ -53,10 +56,14 @@ static int g_curY = -1;
 static pos g_neighborGrids[BOARD_COUNT];      // in hexgeon map, the max neighbor count is 6 
 static int g_neighborCount;
 
-static float g_counter = 0.0f;
+static float g_timer = 0.0f;
+static bool g_startMove = false;
+static bool g_calculateStep = false;
+static pos g_enemyNextStep;
 
 
 //------------------------- scene functions ---------------------------
+
 
 void gotoState( int state );
 void createMap();
@@ -68,9 +75,11 @@ void drawPlayerTurn();
 void updateEnemyTurn( float elapsed );
 void drawEnemyTurn();
 
+
 //----------------------- game functions declare ----------------------
 
 
+// enter game
 void SceneIngame_onEnter()
 {
     ALLEGRO_DEBUG("[EnterScene]: SceneIngame");
@@ -105,6 +114,8 @@ void SceneIngame_onFrame( double interval )
     }
     
     //TODO 
+    
+    g_timer += interval;
     
 }
 
@@ -148,7 +159,9 @@ void SceneIngame_onLeave()
 void gotoState( int state )
 {
     g_gameState = state;
-    g_counter = 0.0f;
+    g_timer = 0.0f;
+    g_startMove = false;
+    g_calculateStep = false;
     
     //TODO
 }
@@ -209,14 +222,26 @@ void updateFadeInGame( float elapsed )
 {
     (void)elapsed;
     
-    //TODO 
+    if( g_timer >= FADEIN_TIME )
+    {
+        gotoState( STATE_PLAYER_TURN );
+    }
 }
 
 
 // draw fade in game
 void drawFadeInGame()
 {
-    //TODO 
+    // draw a background
+    al_draw_filled_rectangle( 0, 0, 480, 320, al_map_rgb_f( 1.0f, 1.0f, 1.0f ) );
+    
+    float alpha = g_timer / FADEIN_TIME;
+    
+    // draw map
+    DrawAlphaMap( g_map, MAP_OFFSET_X, MAP_OFFSET_Y, alpha );
+    
+    // draw escaper
+    DrawAlphaEscaper( g_escaper, MAP_OFFSET_X, MAP_OFFSET_Y, alpha );
 }
 
 
@@ -272,6 +297,7 @@ void updatePlayerTurn( float elapsed )
             // go to destination grid
             if( destIdx >= 0 )
             {
+                g_startMove = true;
                 MoveEscapeTo( g_escaper, g_curX, g_curY );
             }
             // cancel the move status
@@ -289,6 +315,13 @@ void updatePlayerTurn( float elapsed )
     
     // update escaper
     UpdateEscaper( g_escaper, elapsed );
+    
+    // switch enemy turn
+    if( g_startMove && g_escaper->_status == eEscapeStateIdle )
+    {
+        gotoState( STATE_ENEMY_TURN );
+    }
+    
 }
 
 
@@ -329,14 +362,37 @@ void updateEnemyTurn( float elapsed )
 {
     (void)elapsed;
     
-    //TODO 
+    if( g_calculateStep == false )
+    {
+        GetNextGrid( g_map, &g_enemyNextStep );
+        
+        g_calculateStep = true;
+    }
+    
+    if( g_timer >= FADEIN_TIME )
+    {
+        SetTile( g_map, g_enemyNextStep.x, g_enemyNextStep.y, eTileBlock );
+        
+        gotoState( STATE_PLAYER_TURN );
+    }
+    
 }
 
 
 // draw enemy turn
 void drawEnemyTurn()
 {
-    //TODO 
+    float alpha = g_timer / FADEIN_TIME;
+    
+    // draw map
+    DrawMap( g_map, MAP_OFFSET_X, MAP_OFFSET_Y );
+    
+    // draw escaper
+    DrawEscaper( g_escaper, MAP_OFFSET_X, MAP_OFFSET_Y );
+    
+    // draw next tile
+    DrawTileType( g_map, g_enemyNextStep.x, g_enemyNextStep.y, MAP_OFFSET_X, MAP_OFFSET_Y, eTileBlock, alpha );
+    
 }
 
 

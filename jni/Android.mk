@@ -50,6 +50,7 @@ LOCAL_SRC_FILES += src/sceneIngame.c
 LOCAL_SRC_FILES += src/hexmap.c
 LOCAL_SRC_FILES += src/escaper.c
 LOCAL_SRC_FILES += src/animation.c
+LOCAL_SRC_FILES += src/surrounder.c
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/Headers
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/src

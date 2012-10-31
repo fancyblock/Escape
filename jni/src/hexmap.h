@@ -63,8 +63,14 @@ char GetTile( hexmap* map, int posX, int posY );
 // draw map
 void DrawMap( hexmap* map, float xOffset, float yOffset );
 
+// draw alpha map
+void DrawAlphaMap( hexmap* map, float xOffset, float yOffset, float alpha );
+
 // draw a single tile
 void DrawTile( hexmap* map, int gridX, int gridY, float xOffset, float yOffset, ALLEGRO_COLOR color );
+
+// draw specific type tile
+void DrawTileType( hexmap* map, int gridX, int gridY, float xOffset, float yOffset, char type, float alpha );
 
 // convert from grid coordinate to map coordinate ( center of the hexagon )
 void GridToPosition( hexmap* map, int gridX, int gridY, float* posX, float* posY );

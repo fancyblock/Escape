@@ -49,6 +49,9 @@ void AddFrame( animation* ani, int index, int xoffset, int yoffset );
 // draw animation
 void DrawAnimation( animation* ani, float xoffset, float yoffset );
 
+// draw alpha animation
+void DrawAlphaAnimation( animation* ani, float xoffset, float yoffset, float alpha );
+
 // update animation
 void UpdateAnimation( animation* ani, float elapsed );
 

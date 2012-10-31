@@ -76,6 +76,9 @@ void UpdateEscaper( escaper* obj, float elapsed );
 // draw the escape
 void DrawEscaper( escaper* obj, float offsetx, float offsety );
 
+// draw alpha escape
+void DrawAlphaEscaper( escaper* obj, float offsetx, float offsety, float alpha );
+
 // move to
 void MoveEscapeTo( escaper* obj, int gridX, int gridY );
 

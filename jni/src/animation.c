@@ -69,7 +69,17 @@ void DrawAnimation( animation* ani, float xoffset, float yoffset )
     int curIdx = frameIdx % ani->frameCnt;
     
     al_draw_bitmap_region( ani->spritesheet, ani->frames[curIdx].x, ani->frames[curIdx].y, (float)ani->wid, (float)ani->hei, xoffset, yoffset, 0 );
+}
 
+
+// draw alpha animation
+void DrawAlphaAnimation( animation* ani, float xoffset, float yoffset, float alpha )
+{
+    int frameIdx = ani->curTime / ani->interval;
+    int curIdx = frameIdx % ani->frameCnt;
+    
+    al_draw_tinted_bitmap_region( ani->spritesheet, al_map_rgba_f( 1.0f, 1.0f, 1.0f, alpha ),
+                                 ani->frames[curIdx].x, ani->frames[curIdx].y, (float)ani->wid, (float)ani->hei, xoffset, yoffset, 0 );
 }
 
 

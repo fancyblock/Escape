@@ -10,6 +10,7 @@
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_android.h>
+#include <allegro5/allegro_primitives.h>
 #include <stdlib.h>
 
 

@@ -3,7 +3,7 @@
 //  Escape
 //
 //  Created by He jia bin on 10/30/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 CoconutIslandStudio. All rights reserved.
 //
 
 #ifndef Escape_common_h

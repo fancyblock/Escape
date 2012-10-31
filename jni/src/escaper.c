@@ -83,6 +83,8 @@ bool AddEscapeToMap( escaper* obj, hexmap* map, int x, int y )
     obj->_xPos = x;
     obj->_yPos = y;
     
+    SetTile( map, x, y, eTileObject );
+    
     return true;
 }
 
@@ -123,13 +125,16 @@ void UpdateEscaper( escaper* obj, float elapsed )
         
         if( obj->_movingTime >= GRID_MOVE_TIME )
         {
-            obj->_status = eEscapeStateIdle;
+            SetTile( obj->_map, obj->_xPos, obj->_yPos, eTileBlank );
+            
             obj->_xPos = obj->_xDest;
             obj->_yPos = obj->_yDest;
+            
+            SetTile( obj->_map, obj->_xPos, obj->_yPos, eTileObject );
+            
+            obj->_status = eEscapeStateIdle;
         }
     }
-    
-    //TODO 
     
 }
 
@@ -157,9 +162,32 @@ void DrawEscaper( escaper* obj, float offsetx, float offsety )
     ypos -= ( ANI_HEI / 2.0 );
     
     DrawAnimation( &obj->_anis[obj->_dir], xpos + offsetx, ypos + offsety );
+}
+
+
+// draw alpha escape
+void DrawAlphaEscaper( escaper* obj, float offsetx, float offsety, float alpha )
+{
+    float xpos;
+    float ypos;
     
-    //TODO 
+    GridToPosition( obj->_map, obj->_xPos, obj->_yPos, &xpos, &ypos );
     
+    if( obj->_status == eEscapeStateMoving )
+    {
+        float destX;
+        float destY;
+        
+        GridToPosition( obj->_map, obj->_xDest, obj->_yDest, &destX, &destY );
+        
+        xpos += ( destX - xpos ) * obj->_movingTime / GRID_MOVE_TIME;
+        ypos += ( destY - ypos ) * obj->_movingTime / GRID_MOVE_TIME;
+    }
+    
+    xpos -= ( ANI_WID / 2.0 );
+    ypos -= ( ANI_HEI / 2.0 );
+    
+    DrawAlphaAnimation( &obj->_anis[obj->_dir], xpos + offsetx, ypos + offsety, alpha );
 }
 
 

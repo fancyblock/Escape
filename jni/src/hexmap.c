@@ -95,6 +95,13 @@ char GetTile( hexmap* map, int posX, int posY )
 // draw map
 void DrawMap( hexmap* map, float xOffset, float yOffset )
 {
+    DrawAlphaMap( map, xOffset, yOffset, 1.0f );
+}
+
+
+// draw alpha map
+void DrawAlphaMap( hexmap* map, float xOffset, float yOffset, float alpha )
+{
     int wid = map->_wid;
     int hei = map->_hei;
     
@@ -136,8 +143,7 @@ void DrawMap( hexmap* map, float xOffset, float yOffset )
             }
             if( type == eTileObject )
             {
-                //picOffset = 99;
-                picOffset = 33;
+                picOffset = 33;             // the same as eTileBlank
             }
             
             if( type == eTileSpecial )
@@ -145,11 +151,10 @@ void DrawMap( hexmap* map, float xOffset, float yOffset )
                 picOffset = 132;
             }
             
-            al_draw_bitmap_region( map->_imgTiles, 0, picOffset, TILE_WIDTH, TILE_HEIGHT,
-                                  posX + xOffset - TILE_WIDTH/2.0, posY + yOffset - TILE_HEIGHT/2.0, 0 );
+            al_draw_tinted_bitmap_region( map->_imgTiles, al_map_rgba_f( 1.0f, 1.0f, 1.0f, alpha ), 0, picOffset, TILE_WIDTH, TILE_HEIGHT,
+                                         posX + xOffset - TILE_WIDTH/2.0, posY + yOffset - TILE_HEIGHT/2.0, 0 );
         }
     }
-    
 }
 
 
@@ -166,6 +171,44 @@ void DrawTile( hexmap* map, int gridX, int gridY, float xOffset, float yOffset, 
     
     al_draw_tinted_bitmap_region( map->_imgTiles, color,
                                  0, 132, TILE_WIDTH, TILE_HEIGHT,
+                                 posX + xOffset - TILE_WIDTH/2.0, posY + yOffset - TILE_HEIGHT/2.0, 0 );
+}
+
+
+// draw specific type tile
+void DrawTileType( hexmap* map, int gridX, int gridY, float xOffset, float yOffset, char type, float alpha )
+{
+    int picOffset = 132;
+    
+    // draw map tile       
+    if( type == eTileBlank )
+    {
+        picOffset = 33;
+    }
+    if( type == eTileBlock )
+    {
+        picOffset = 0;
+    }
+    if( type == eTileObject )
+    {
+        picOffset = 33;             // the same as eTileBlank
+    }
+    
+    if( type == eTileSpecial )
+    {
+        picOffset = 132;
+    }
+    
+    float factorX1 = map->_xOffset;
+    float factorX2 = map->_xOffset / 2;
+    float factorY = map->_yOffset;
+    
+    // convert coordinate
+    float posX = factorX1 * gridX + factorX2 * gridY;
+    float posY = factorY * gridY;
+    
+    al_draw_tinted_bitmap_region( map->_imgTiles, al_map_rgba_f( 1.0f, 1.0f, 1.0f, alpha ),
+                                 0, picOffset, TILE_WIDTH, TILE_HEIGHT,
                                  posX + xOffset - TILE_WIDTH/2.0, posY + yOffset - TILE_HEIGHT/2.0, 0 );
 }
 
