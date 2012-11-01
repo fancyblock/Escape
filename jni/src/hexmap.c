@@ -267,6 +267,25 @@ int GetNeighborGrids( hexmap* map, int posX, int posY, pos* output )
 }
 
 
+// judge if it's border
+bool IsBorder( hexmap* map, int posX, int posY )
+{
+    int offsetx[] = { 0, 1, -1, 1, -1, 0 };
+    int offsety[] = { -1, -1, 0, 0, 1, 1 };
+    
+    int i;
+    for( i = 0; i < BOARD_COUNT; i++ )
+    {
+        if( GetTile( map, posX + offsetx[i], posY + offsety[i] ) == eTileEmpty )
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+
 // get adjoin grids
 int GetAdjoinGrids( hexmap* map, int posX, int posY, int distance, pos* posPool, int posPoolSize )
 {

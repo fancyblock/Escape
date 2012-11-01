@@ -74,6 +74,10 @@ void updatePlayerTurn( float elapsed );
 void drawPlayerTurn();
 void updateEnemyTurn( float elapsed );
 void drawEnemyTurn();
+void updateSuccess( float elapsed );
+void drawSuccess();
+void updateFail( float elapsed );
+void drawFail();
 
 
 //----------------------- game functions declare ----------------------
@@ -112,8 +116,14 @@ void SceneIngame_onFrame( double interval )
     {
         updateEnemyTurn( interval );
     }
-    
-    //TODO 
+    else if( g_gameState == STATE_SUCCESS )
+    {
+        updateSuccess( interval );
+    }
+    else if( g_gameState == STATE_FAIL )
+    {
+        updateFail( interval );
+    }
     
     g_timer += interval;
     
@@ -136,9 +146,14 @@ void SceneIngame_onRender( double interval )
     {
         drawEnemyTurn();
     }
-    
-    //TODO 
-
+    else if( g_gameState == STATE_SUCCESS )
+    {
+        drawSuccess();
+    }
+    else if( g_gameState == STATE_FAIL )
+    {
+        drawFail();
+    }
 }
 
 
@@ -305,12 +320,10 @@ void updatePlayerTurn( float elapsed )
             {
                 SetStatus( g_escaper, eEscapeStateIdle );
             }
-            
         }
         
         g_curX = -1;
         g_curY = -1;
-        
     }
     
     // update escaper
@@ -319,7 +332,17 @@ void updatePlayerTurn( float elapsed )
     // switch enemy turn
     if( g_startMove && g_escaper->_status == eEscapeStateIdle )
     {
-        gotoState( STATE_ENEMY_TURN );
+        // judge if the player arrive the border or not
+        if( IsBorder( g_map, g_escaper->_xPos, g_escaper->_yPos ) == true )
+        {
+            // escape success
+            gotoState( STATE_SUCCESS );
+        }
+        else
+        {
+            // enemy turn
+            gotoState( STATE_ENEMY_TURN );
+        }
     }
     
 }
@@ -394,6 +417,42 @@ void drawEnemyTurn()
     DrawTileType( g_map, g_enemyNextStep.x, g_enemyNextStep.y, MAP_OFFSET_X, MAP_OFFSET_Y, eTileBlock, alpha );
     
 }
+
+
+// update success state
+void updateSuccess( float elapsed )
+{
+    (void)elapsed;
+    
+    //TODO
+}
+
+
+// draw success state
+void drawSuccess()
+{
+    //TODO
+}
+
+
+// update fail state
+void updateFail( float elapsed )
+{
+    (void)elapsed;
+    
+    //TODO
+}
+
+
+// draw fail state
+void drawFail()
+{
+    //TODO 
+}
+
+
+
+
 
 
 

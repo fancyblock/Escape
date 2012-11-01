@@ -87,5 +87,8 @@ int GetAdjoinGrids( hexmap* map, int posX, int posY, int distance, pos* posPool,
 // calculate the distance of two grids ( omit grid type )
 int CalcDistance( int x1, int y1, int x2, int y2 );
 
+// judge if it's border
+bool IsBorder( hexmap* map, int posX, int posY );
+
 
 #endif
