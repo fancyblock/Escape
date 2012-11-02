@@ -270,6 +270,11 @@ int GetNeighborGrids( hexmap* map, int posX, int posY, pos* output )
 // judge if it's border
 bool IsBorder( hexmap* map, int posX, int posY )
 {
+    if( GetTile( map, posX, posY ) == eTileEmpty )
+    {
+        return false;
+    }
+    
     int offsetx[] = { 0, 1, -1, 1, -1, 0 };
     int offsety[] = { -1, -1, 0, 0, 1, 1 };
     
