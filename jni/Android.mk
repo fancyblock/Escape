@@ -40,6 +40,12 @@ include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
+LOCAL_MODULE := liballegro_font-prebuilt
+LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/liballegro_font.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
 LOCAL_ALLOW_UNDEFINED_SYMBOLS := true
 LOCAL_MODULE    := allegro-example
 LOCAL_SRC_FILES := main.c
@@ -65,6 +71,7 @@ LOCAL_LDLIBS    += libs/$(TARGET_ARCH_ABI)/liballegro.so
 LOCAL_LDLIBS    += libs/$(TARGET_ARCH_ABI)/liballegro_primitives.so
 LOCAL_LDLIBS    += libs/$(TARGET_ARCH_ABI)/liballegro_image.so
 LOCAL_LDLIBS	+= libs/$(TARGET_ARCH_ABI)/liballegro_main.so
+LOCAL_LDLIBS	+= libs/$(TARGET_ARCH_ABI)/liballegro_font.so
 
 include $(BUILD_SHARED_LIBRARY)
 

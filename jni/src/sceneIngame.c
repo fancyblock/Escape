@@ -207,7 +207,7 @@ void createMap()
     
     // ( generate some random obstacle )
     srand( time(0) );
-    int obstacleCnt = rand() % 10 + 14;
+    int obstacleCnt = rand() % 10 + 4;
     int miniDis = 3;
     
     int randX;
@@ -385,6 +385,30 @@ void updateEnemyTurn( float elapsed )
 {
     (void)elapsed;
     
+    touch* curTouch = GetTouchEvent();
+    
+    // get the grid which be touch currently
+    if( curTouch->_type == EVT_TOUCH || curTouch->_type == EVT_MOVE )
+    {
+        PositionToGrid( g_map, curTouch->_x + HEXAGON_XOFFSET/2.0 - MAP_OFFSET_X,
+                       curTouch->_y + HEXAGON_YOFFSET/2.0 - MAP_OFFSET_Y,
+                       &g_curX, &g_curY );
+    }
+    // do the action when untouch the current grid
+    if( curTouch->_type == EVT_UNTOUCH )
+    {
+        if( GetTile( g_map, g_curX, g_curY ) == eTileBlank )
+        {
+            SetTile( g_map, g_curX, g_curY, eTileBlock );
+            
+            gotoState( STATE_PLAYER_TURN );
+        }
+        
+        g_curX = -1;
+        g_curY = -1;
+    }
+    
+    /*
     if( g_calculateStep == false )
     {
         GetNextGrid( g_map, &g_enemyNextStep );
@@ -398,6 +422,7 @@ void updateEnemyTurn( float elapsed )
         
         gotoState( STATE_PLAYER_TURN );
     }
+     */
     
 }
 
@@ -405,7 +430,7 @@ void updateEnemyTurn( float elapsed )
 // draw enemy turn
 void drawEnemyTurn()
 {
-    float alpha = g_timer / FADEIN_TIME;
+    //float alpha = g_timer / FADEIN_TIME;
     
     // draw map
     DrawMap( g_map, MAP_OFFSET_X, MAP_OFFSET_Y );
@@ -413,8 +438,14 @@ void drawEnemyTurn()
     // draw escaper
     DrawEscaper( g_escaper, MAP_OFFSET_X, MAP_OFFSET_Y );
     
+    // draw hint spot
+    if( g_curX >= 0 && g_curY >= 0 )
+    {
+        DrawTile( g_map, g_curX, g_curY, MAP_OFFSET_X, MAP_OFFSET_Y, al_map_rgba_f( 1.0, 0, 0, 0.5 ) );
+    }
+    
     // draw next tile
-    DrawTileType( g_map, g_enemyNextStep.x, g_enemyNextStep.y, MAP_OFFSET_X, MAP_OFFSET_Y, eTileBlock, alpha );
+    //DrawTileType( g_map, g_enemyNextStep.x, g_enemyNextStep.y, MAP_OFFSET_X, MAP_OFFSET_Y, eTileBlock, 1 );
     
 }
 

@@ -4,4 +4,5 @@ APP_MODULES := liballegro-prebuilt
 APP_MODULES += liballegro_primitives-prebuilt
 APP_MODULES += liballegro_image-prebuilt
 APP_MODULES += liballegro_main-prebuilt
+APP_MODULES += liballegro_font-prebuilt
 APP_MODULES += allegro-example

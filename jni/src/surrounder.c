@@ -15,7 +15,7 @@
 ALLEGRO_DEBUG_CHANNEL("[AI]")
 
 
-#define MAX_QUEUE_SIZE  200;
+#define MAX_QUEUE_SIZE  200
 
 pos g_queue[MAX_QUEUE_SIZE];
 int g_queueHead;
@@ -23,6 +23,7 @@ int g_queueTail;
 
 
 //--------------------- inner functions ------------------------
+
 
 int GetAllBorderGrids( hexmap* map, pos* grids, int maxSize );
 hexmap* AnalysisMap( hexmap* map );
@@ -37,7 +38,7 @@ bool GetNextGrid( hexmap* map, pos* posBuf )
 {
     srand( time(0) );
     
-    ///*
+    //*
     bool find = false;
     while( find == false )
     {
@@ -52,7 +53,7 @@ bool GetNextGrid( hexmap* map, pos* posBuf )
             find = true;
         }
     }
-    // */
+    //*/
     
     //TODO 
     
@@ -100,8 +101,8 @@ int GetAllBorderGrids( hexmap* map, pos* grids, int maxSize )
 // analysis the game map and return a info map
 hexmap* AnalysisMap( hexmap* map )
 {
-    char b = -2;
-    char v = -1;
+    char b = -2;        // block grid
+    char v = -1;        // 
     
     hexmap* infoMap = CreateHexMap( map->_wid, map->_hei, map->_xOffset, map->_yOffset, map->_orientation );
     FillMap( infoMap, v );

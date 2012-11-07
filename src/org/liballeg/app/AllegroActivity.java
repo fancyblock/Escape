@@ -110,6 +110,7 @@ public class AllegroActivity extends Activity implements SensorEventListener
       System.loadLibrary("allegro_primitives");
       System.loadLibrary("allegro_image");
       System.loadLibrary("allegro_main");
+      System.loadLibrary("allegro_font");
    }
 	
 	@Override
