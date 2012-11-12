@@ -58,9 +58,9 @@ int main(int argc, char **argv)
     ALLEGRO_DEBUG("init keyboard");
     al_install_keyboard();
     
-    ALLEGRO_DEBUG( "init font" );
-    al_init_font_addon();
-    al_init_ttf_addon();
+//    ALLEGRO_DEBUG( "init font" );
+//    al_init_font_addon();
+//    al_init_ttf_addon();
 
     ALLEGRO_DEBUG("creating display");
     al_set_new_display_option( ALLEGRO_SUPPORTED_ORIENTATIONS, ALLEGRO_DISPLAY_ORIENTATION_LANDSCAPE, ALLEGRO_REQUIRE );
@@ -172,8 +172,8 @@ int main(int argc, char **argv)
         al_flip_display();
     }
     
-    al_shutdown_ttf_addon();
-    al_shutdown_font_addon();
+//    al_shutdown_ttf_addon();
+//    al_shutdown_font_addon();
 
     ALLEGRO_DEBUG("done");
     return 0;

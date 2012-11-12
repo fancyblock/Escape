@@ -207,7 +207,7 @@ void createMap()
     
     // ( generate some random obstacle )
     srand( time(0) );
-    int obstacleCnt = rand() % 10 + 4;
+    int obstacleCnt = rand() % 7 + 4;
     int miniDis = 3;
     
     int randX;
